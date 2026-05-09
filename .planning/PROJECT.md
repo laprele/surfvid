@@ -31,7 +31,8 @@ Get to your best moments and export them, without ever leaving your phone.
 - Merged/concatenated export — user wants individual clip files
 - Live camera capture — camera roll only
 - React Native / cross-platform — native SwiftUI only
-- Social sharing flows — not needed for personal use
+- Social sharing flows — Share Sheet covers all destinations
+- Volume button In/Out marking (v1) — sandboxed gray-area hack; deferred to v2 after device spike
 
 ## Context
 
@@ -46,6 +47,7 @@ Distribution: personal device first (sideload/Xcode), with App Store release as 
 - **Platform**: iOS (iPhone) only — no iPad or macOS target for v1
 - **Tech stack**: SwiftUI + AVFoundation + PhotosKit — no third-party dependencies for v1
 - **Distribution**: No App Store for v1 — personal device via Xcode; entitlements and signing kept simple
+- **File size**: Source videos are typically 1 hour / 15-20 GB — AVPlayer must stream from Photos asset URL; no in-memory loading; thumbnail generation must be async and selective
 
 ## Key Decisions
 

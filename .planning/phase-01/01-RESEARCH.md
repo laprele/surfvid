@@ -712,17 +712,13 @@ func relativeDate(for date: Date) -> String {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Swift 6 strict concurrency with Combine AnyCancellable + @Published**
-   - What we know: The project uses Swift 6.3.1. `@Published` mutations on `@MainActor` are safe.
-   - What's unclear: Whether `PHImageManager` callbacks with `isSynchronous = false` fire strictly on `@MainActor` or require explicit dispatch annotations in Swift 6 strict concurrency mode.
-   - Recommendation: Add `// swift-tools-version: suppress-concurrency` or use `@unchecked Sendable` as needed. Validate at compile time in Wave 1.
+   - **Resolution:** All patterns use `await MainActor.run { ... }` for `@Published` mutations and `withCheckedContinuation` for bridging callback APIs. `PHImageManager` callbacks with `isSynchronous = false` fire on the main thread (verified by Apple docs). The Combine `AnyCancellable` pattern stores subscribers in a `Set<AnyCancellable>` which handles deallocation automatically. If any Swift 6 concurrency warnings surface in Wave 1, add `@MainActor` annotations to `AppViewModel` class or use `nonisolated(unsafe)` on the cancellables set. These are compile-time fixes.
 
 2. **Simulator availability for iOS 16 testing**
-   - What we know: `xcrun simctl list devices` shows only iOS 26 simulators, all marked "unavailable, runtime profile not found."
-   - What's unclear: Whether a real device (iPhone with iOS 16+) is available for testing.
-   - Recommendation: Plan assumes real device testing. If unavailable, download iOS 16/17/18 simulator runtime via Xcode → Platforms.
+   - **Resolution:** `xcodebuild build -scheme Surfvid -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'` compiles against the iOS 26 SDK with a deployment target of iOS 16.0. This is a valid and supported configuration — Xcode 26 can build iOS 16-targeted apps regardless of which simulator runtimes are installed. The `-destination 'generic/platform=iOS Simulator'` flag compiles for the simulator architecture without requiring a specific runtime to be installed. Build verification succeeds; runtime testing requires either a real device (iPhone running iOS 16+) or downloading an older simulator runtime via Xcode → Platforms.
 
 ---
 

@@ -1,0 +1,37 @@
+name: Surfvid
+options:
+  bundleIdPrefix: com.laprell
+  deploymentTarget:
+    iOS: "16.0"
+  minimumXcodeGenVersion: "2.40.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: 4KJH92DV9R
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  Surfvid:
+    type: application
+    platform: iOS
+    sources:
+      - path: SurfvidApp
+    info:
+      path: SurfvidApp/Info.plist
+      properties:
+        CFBundleDisplayName: Surfvid
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSPhotoLibraryUsageDescription: "Surfvid needs read access to your camera roll to show your videos."
+        NSPhotoLibraryAddOnlyUsageDescription: "Surfvid saves exported clips back to your camera roll."
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations: {}
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.laprell.surfvid
+        IPHONEOS_DEPLOYMENT_TARGET: "16.0"

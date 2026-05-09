@@ -12,7 +12,12 @@
 2. Videos are ordered most-recently-added first by default.
 3. User taps a video and it begins playing immediately — the app does not hang, crash, or consume excessive memory even for a 15-20 GB hour-long file.
 4. Scrolling the library grid remains smooth while thumbnails load asynchronously in the background.
-**Plans:** TBD
+**Plans:** 4 plans
+Plans:
+- [ ] 01-01-PLAN.md — XcodeGen scaffold, core Swift type graph, project compiles (Wave 1)
+- [ ] 01-02-PLAN.md — Photos authorization flow, LibraryView, LibraryCell async thumbnails (Wave 2)
+- [ ] 01-03-PLAN.md — PlayerView AVPlayerLayer bridge, SkimView full chrome shell (Wave 3)
+- [ ] 01-04-PLAN.md — Integration wiring, orientation lock, device verification checkpoint (Wave 4)
 **UI hint:** yes
 
 ### Phase 2: Skim Interactions

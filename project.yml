@@ -35,3 +35,19 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.laprell.surfvid
         IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+
+schemes:
+  Surfvid:
+    build:
+      targets:
+        Surfvid: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

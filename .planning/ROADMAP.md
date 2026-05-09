@@ -1,0 +1,84 @@
+# Surfvid — Roadmap
+
+## Milestone 1: v1.0
+
+### Phase 1: App Shell & Video Browsing
+**Goal:** User can grant Photos access, browse their camera roll, and tap a video to see it play — the full entry path to the app, end-to-end.
+**Mode:** mvp
+**Depends on:** Nothing (first phase)
+**Requirements:** LIB-01, LIB-02, PERF-01
+**Success Criteria:**
+1. User opens the app and is prompted for Photos access; granting it reveals a scrollable grid of camera roll videos with thumbnails.
+2. Videos are ordered most-recently-added first by default.
+3. User taps a video and it begins playing immediately — the app does not hang, crash, or consume excessive memory even for a 15-20 GB hour-long file.
+4. Scrolling the library grid remains smooth while thumbnails load asynchronously in the background.
+**Plans:** TBD
+**UI hint:** yes
+
+### Phase 2: Skim Interactions
+**Goal:** User can scrub through a video with a drag gesture, play/pause it, mark In and Out points with on-screen buttons, and see all marked clip ranges in the mini filmstrip — building a clip list in a single skim session.
+**Mode:** mvp
+**Depends on:** Phase 1
+**Requirements:** SKIM-01, SKIM-03, SKIM-04, SKIM-05, SKIM-06, SKIM-07, SKIM-08, PERF-02
+**Success Criteria:**
+1. User drags anywhere on the video surface and the playhead follows the finger accurately — the frame shown matches the time position, not a nearby keyframe.
+2. User taps the In button then the Out button; the app registers a clip range for those two positions.
+3. Current playhead position is displayed as a timecode (e.g. 0:12.3) that updates continuously during scrub.
+4. A visual HUD flash confirms each In or Out registration immediately on tap.
+5. User can repeat the In/Out process multiple times in one session; all marked clip ranges are shown in the mini filmstrip at the bottom of the skim view, with filmstrip thumbnails generated asynchronously so the skim UI is never blocked.
+**Plans:** TBD
+**UI hint:** yes
+
+### Phase 3: Review Screen
+**Goal:** User can leave the skim screen, review all marked clips with their start/end times and durations, delete unwanted clips, and return to skimming to add more — without losing playback state.
+**Mode:** mvp
+**Depends on:** Phase 2
+**Requirements:** REV-01, REV-02, REV-03
+**Success Criteria:**
+1. User navigates to the review screen and sees a list of all clips with start time, end time, and duration for each.
+2. User deletes a clip from the review list; it disappears immediately.
+3. User taps "back to skim" from the review screen; the skim view reopens with the same video at the same playhead position and all previously marked clips intact.
+**Plans:** TBD
+**UI hint:** yes
+
+### Phase 4: Export
+**Goal:** User can export every marked clip as a separate trimmed MP4 file to the Camera Roll, with per-clip progress feedback, a completion confirmation, and a share option — all without re-encoding.
+**Mode:** mvp
+**Depends on:** Phase 3
+**Requirements:** EXP-01, EXP-02, EXP-03, EXP-04, PERF-03
+**Success Criteria:**
+1. User taps Export from the review screen; each clip is exported as a separate H.264 MP4 file that appears in the Camera Roll.
+2. Per-clip export progress is shown (e.g. a progress bar or percentage per row) so the user can see which clips are done and which are in progress.
+3. After all clips finish exporting, a confirmation message or screen is shown.
+4. User can tap Share on a clip to open the iOS Share Sheet and send the file via AirDrop, Files, iCloud, or any share destination.
+5. Exporting a 30-second clip from a 15 GB source file completes quickly using passthrough preset — no re-encode, export time is proportional to clip length only.
+**Plans:** TBD
+**UI hint:** yes
+
+---
+
+## Requirement Coverage
+
+| REQ-ID | Phase |
+|--------|-------|
+| LIB-01 | 1 |
+| LIB-02 | 1 |
+| PERF-01 | 1 |
+| SKIM-01 | 2 |
+| SKIM-03 | 2 |
+| SKIM-04 | 2 |
+| SKIM-05 | 2 |
+| SKIM-06 | 2 |
+| SKIM-07 | 2 |
+| SKIM-08 | 2 |
+| PERF-02 | 2 |
+| REV-01 | 3 |
+| REV-02 | 3 |
+| REV-03 | 3 |
+| EXP-01 | 4 |
+| EXP-02 | 4 |
+| EXP-03 | 4 |
+| EXP-04 | 4 |
+| PERF-03 | 4 |
+
+**Total:** 19/19 requirements mapped. No orphans.

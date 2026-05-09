@@ -13,6 +13,11 @@ class AppViewModel: ObservableObject {
 
     init() {
         self.playerController = PlayerController()
+        // D-06: Returning user with previously granted access sees library immediately,
+        // without waiting for requestPhotosAccess() to trigger the fetch.
+        if authStatus == .authorized || authStatus == .limited {
+            fetchVideos()
+        }
     }
 
     func pickVideo(_ asset: PHAsset) {

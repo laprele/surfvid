@@ -143,7 +143,7 @@ struct SkimView: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.white)
-                .foregroundColor(Color(.label))
+                .foregroundColor(Color.black)
                 .clipShape(Capsule())
         }
         .padding(.horizontal, 18)

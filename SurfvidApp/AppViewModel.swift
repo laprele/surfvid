@@ -9,6 +9,16 @@ class AppViewModel: ObservableObject {
     @Published var authStatus: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     @Published var assets: [PHAsset] = []
 
+    // Phase 2: clip marking — D-12: flat MVVM, all state in AppViewModel
+    struct Clip: Identifiable {
+        let id = UUID()
+        let start: Double   // seconds
+        let end: Double     // seconds
+    }
+
+    @Published var clips: [Clip] = []
+    @Published var pendingIn: Double? = nil
+
     let playerController: PlayerController  // D-10: created once in init
 
     init() {
@@ -21,6 +31,7 @@ class AppViewModel: ObservableObject {
     }
 
     func pickVideo(_ asset: PHAsset) {
+        resetForNewVideo()          // reset clip state on each new video load
         Task {
             await playerController.load(asset: asset)
             await MainActor.run { screen = .skim }
@@ -51,5 +62,29 @@ class AppViewModel: ObservableObject {
         var fetched: [PHAsset] = []
         result.enumerateObjects { asset, _, _ in fetched.append(asset) }
         self.assets = fetched
+    }
+
+    // D-08: Double-In resets pendingIn — no confirmation, no append.
+    func markIn(at time: Double) {
+        pendingIn = time
+    }
+
+    // D-07: Out before In → autoIn = max(0, time - 15s). Pitfall 7: zero-duration guard.
+    func markOut(at time: Double) {
+        if let inTime = pendingIn {
+            let start = min(inTime, time)
+            let end = max(inTime, time)
+            guard end > start else { return }
+            clips.append(Clip(start: start, end: end))
+            pendingIn = nil
+        } else {
+            let autoIn = max(0, time - 15.0)
+            clips.append(Clip(start: autoIn, end: time))
+        }
+    }
+
+    func resetForNewVideo() {
+        clips = []
+        pendingIn = nil
     }
 }

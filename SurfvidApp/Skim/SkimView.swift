@@ -10,6 +10,7 @@ struct SkimView: View {
     @State private var isScrubbing: Bool = false
     @State private var lastDragX: CGFloat = 0
     @State private var hudFlash: HUDKind? = nil
+    @State private var savedClipInfo: String? = nil
 
     enum HUDKind { case inPoint, outPoint }
 
@@ -56,6 +57,25 @@ struct SkimView: View {
                         Text("MARKING · IN @ \(formatTimecode(inTime))")
                             .font(.caption.weight(.semibold))
                             .foregroundColor(Color(red: 0.72, green: 0.32, blue: 0.14))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(.ultraThinMaterial, in: Capsule())
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 56)
+                    .transition(.opacity)
+                    .allowsHitTesting(false)
+                }
+
+                // Layer 4b: Saved-clip pill — brief confirmation after OUT tap
+                if let info = savedClipInfo, chromeVisible {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(Color.white.opacity(0.55))
+                            .frame(width: 6, height: 6)
+                        Text(info)
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(Color.white.opacity(0.85))
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
@@ -206,6 +226,9 @@ struct SkimView: View {
                     appViewModel.playerController.seekExact(to: t)
                     appViewModel.markOut(at: t)
                     showHUD(.outPoint)
+                    if let clip = appViewModel.clips.last {
+                        showSavedPill(clip: clip)
+                    }
                 }
                 .font(.caption.weight(.bold))
                 .foregroundColor(.white)
@@ -283,6 +306,19 @@ struct SkimView: View {
             try? await Task.sleep(nanoseconds: 700_000_000)
             await MainActor.run {
                 withAnimation(.easeOut(duration: 0.2)) { hudFlash = nil }
+            }
+        }
+    }
+
+    // Brief saved-clip pill after OUT tap — shows time range, auto-dismisses after 1.5s
+    private func showSavedPill(clip: AppViewModel.Clip) {
+        withAnimation(.easeIn(duration: 0.12)) {
+            savedClipInfo = "CLIP · \(formatTimecode(clip.start)) → \(formatTimecode(clip.end))"
+        }
+        Task {
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            await MainActor.run {
+                withAnimation(.easeOut(duration: 0.2)) { savedClipInfo = nil }
             }
         }
     }

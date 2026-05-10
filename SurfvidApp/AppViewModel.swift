@@ -20,9 +20,14 @@ class AppViewModel: ObservableObject {
     @Published var pendingIn: Double? = nil
 
     let playerController: PlayerController  // D-10: created once in init
+    private var cancellables = Set<AnyCancellable>()
 
     init() {
         self.playerController = PlayerController()
+        // Forward PlayerController @Published changes so SkimView re-renders (currentTime, isPlaying)
+        playerController.objectWillChange
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
         // D-06: Returning user with previously granted access sees library immediately,
         // without waiting for requestPhotosAccess() to trigger the fetch.
         if authStatus == .authorized || authStatus == .limited {

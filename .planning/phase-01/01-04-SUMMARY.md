@@ -22,7 +22,7 @@ metrics:
   completed: "2026-05-09"
   tasks_completed: 1
   tasks_total: 2
-  task_2_status: "checkpoint:human-verify — pending device verification by user"
+  task_2_status: "checkpoint:human-verify — APPROVED by user 2026-05-10"
 ---
 
 # Phase 1 Plan 04: Integration Fixes Summary (Partial — Checkpoint Pending)
@@ -32,7 +32,7 @@ metrics:
 ## Status
 
 - Task 1 (auto): COMPLETE — committed `29f9489`
-- Task 2 (checkpoint:human-verify): PENDING — requires device verification by user
+- Task 2 (checkpoint:human-verify): APPROVED — user confirmed all checklist items passed on device 2026-05-10
 
 ## Task 1: Integration Checks and Fixes Applied
 
@@ -92,19 +92,13 @@ Verified checks:
 - `grep -c "appViewModel.pickVideo(asset)" SurfvidApp/Library/LibraryView.swift` → 1
 - `grep -c "if authStatus == .authorized" SurfvidApp/AppViewModel.swift` → 1
 
-## Task 2: Device Verification (PENDING — Human Checkpoint)
+## Task 2: Device Verification — APPROVED
 
-Task 2 is a `checkpoint:human-verify` that requires the user to install the app on a real iPhone and run the full end-to-end checklist from `01-04-PLAN.md`:
+User confirmed all checklist items passed on device (2026-05-10).
 
-- Photos permission flow (all four authorization states)
-- Library grid with async thumbnails, most-recent-first order
-- Large video tap → skim screen within 3s, first frame visible, memory stable
-- Full chrome visible (top + bottom overlays)
-- Orientation lock: portrait in library, landscape in skim, correct on every transition
-- No console errors or background thread warnings
-- `[PlayerView] makeUIView called` appears exactly once
-
-The user must build and run in Xcode (Product → Run on their connected iPhone) and confirm all checklist items pass by typing "approved".
+Two bugs were found and fixed during the checkpoint:
+1. **Orientation lock** — `AppDelegate.orientationLock` was an instance var; the SwiftUI-created delegate instance and `AppDelegate.shared` were different objects. Fixed by making the property and method static (`fix(01-04): make AppDelegate orientation lock static`).
+2. **Letterboxing** — `UILaunchScreen` key missing from Info.plist; iOS letterboxed the app with black bars at top and bottom. Fixed by adding `UILaunchScreen: {}` to project.yml (`fix(01-04): add UILaunchScreen to Info.plist to prevent letterboxing`).
 
 ## Notes for Phase 2 Planner
 

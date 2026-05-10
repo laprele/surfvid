@@ -806,22 +806,22 @@ if let inTime = appViewModel.pendingIn, chromeVisible {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **PX_PER_S tuning for hour-long videos**
    - What we know: Prototype uses 0.6 which "felt right" in the React simulation
    - What's unclear: Whether 0.6 is appropriate when real AVPlayer seek latency is 30-100ms per seek on an iPhone with a 1-hour H.264 file
-   - Recommendation: Planner should define the value; implementer should test on device with the actual hour-long test video. Suggested starting range: 0.4 – 1.0.
+   - **RESOLVED:** Plan 02-02 sets PX_PER_S = 0.6 (prototype value). Device checkpoint (02-03) covers on-device tuning if needed.
 
 2. **Chrome visibility during scrub**
    - What we know: D-01 says tap hides chrome; D-03 says scrub always pauses
    - What's unclear: Should the bottom chrome (timecode, In/Out buttons, timeline) remain visible during a scrub, or does starting a drag automatically show it?
-   - Recommendation: Prototype keeps chrome visible during scrub (pointer events are not None during skimming). Assume chrome stays visible during drag; only a tap toggles it.
+   - **RESOLVED:** Plan 02-02 keeps chrome visible during scrub — only a tap on the video surface toggles `chromeVisible`. Drag gesture does not affect `chromeVisible`.
 
 3. **Done button routing**
    - What we know: SkimView Done button is a no-op stub from Phase 1 ("Phase 2: trigger review screen")
    - What's unclear: Should Done remain a no-op stub in Phase 2, or should it route to `.review`? The Screen enum currently has only `.library` and `.skim`.
-   - Recommendation: Keep as stub; Phase 3 adds `.review` to Screen enum and wires Done.
+   - **RESOLVED:** Stays as stub in Phase 2. Phase 3 adds `.review` to Screen enum and wires Done.
 
 ---
 

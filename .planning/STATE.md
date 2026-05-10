@@ -5,21 +5,21 @@ See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
 **Current phase:** Phase 2 — Skim Interactions
-**Status:** Ready to plan
+**Status:** Ready to execute
 
 ## Phase Status
 
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | App Shell & Video Browsing | Complete ✓ (2026-05-10) |
-| 2 | Skim Interactions | Not started |
+| 2 | Skim Interactions | Planned ◆ (2026-05-10) |
 | 3 | Review Screen | Not started |
 | 4 | Export | Not started |
 
 ## Current Position
 
 **Phase:** 2 — Skim Interactions
-**Plan:** Not yet planned
+**Plan:** 3 plans (Wave 1→2→3)
 **Progress:** 1/4 phases complete
 
 ```
@@ -57,6 +57,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-10 (Phase 1 complete — verified on device)
-Stopped at: Phase 1 verification passed (13/13); code review found 4 critical issues to address
-Next action: `/clear` then `/gsd-discuss-phase 2` or `/gsd-plan-phase 2`
+Last updated: 2026-05-10 (Phase 2 planned — 3 plans, verification passed)
+Stopped at: Phase 2 planning complete; checker passed with 0 blockers
+Next action: `/clear` then `/gsd-execute-phase 2`

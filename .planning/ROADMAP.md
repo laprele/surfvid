@@ -31,7 +31,11 @@ Plans:
 3. Current playhead position is displayed as a timecode (e.g. 0:12.3) that updates continuously during scrub.
 4. A visual HUD flash confirms each In or Out registration immediately on tap.
 5. User can repeat the In/Out process multiple times in one session; all marked clip ranges are shown in the mini filmstrip at the bottom of the skim view, with filmstrip thumbnails generated asynchronously so the skim UI is never blocked.
-**Plans:** TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 02-01-PLAN.md — AppViewModel Clip state machine + PlayerController seek throttle, CADisplayLink, time observer (Wave 1)
+- [ ] 02-02-PLAN.md — SkimView gesture wiring + TimelineBar Canvas, all controls live (Wave 2)
+- [ ] 02-03-PLAN.md — Device verification checkpoint (Wave 3)
 **UI hint:** yes
 
 ### Phase 3: Review Screen

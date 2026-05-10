@@ -4,28 +4,28 @@
 See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
-**Current phase:** Phase 2 — Skim Interactions
-**Status:** Ready to execute
+**Current phase:** Phase 3 — Review Screen
+**Status:** Ready to plan
 
 ## Phase Status
 
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | App Shell & Video Browsing | Complete ✓ (2026-05-10) |
-| 2 | Skim Interactions | Planned ◆ (2026-05-10) |
+| 2 | Skim Interactions | Complete ✓ (2026-05-10) |
 | 3 | Review Screen | Not started |
 | 4 | Export | Not started |
 
 ## Current Position
 
-**Phase:** 2 — Skim Interactions
-**Plan:** 3 plans (Wave 1→2→3) — 2/3 complete, Wave 3 checkpoint pending
-**Progress:** 1/4 phases complete
+**Phase:** 3 — Review Screen
+**Plan:** TBD
+**Progress:** 2/4 phases complete
 
 ```
 [Phase 1] [Phase 2] [Phase 3] [Phase 4]
-   ^
-   Current
+              ^
+              Current
 ```
 
 ## Accumulated Context
@@ -37,6 +37,7 @@ See: .planning/PROJECT.md
 - No third-party dependencies for v1
 - ZStack screen swap (not NavigationStack push) for Library→Skim due to landscape orientation
 - Flat MVVM with single AppViewModel @StateObject as root; no TCA
+- objectWillChange forwarding: AppViewModel must forward playerController.objectWillChange so views observe PlayerController changes
 
 ### Known Risks
 - Volume button In/Out marking (deferred to v2): sandboxed gray-area hack via AVAudioSession KVO; on-screen tap buttons are the v1 interaction
@@ -44,19 +45,19 @@ See: .planning/PROJECT.md
 - Overlapping seek() calls must be serialized via pending-seek flag pattern
 
 ### Todos
-- None yet
+- None
 
 ### Blockers
 - None
 
 ## Performance Metrics
 
-- Phases completed: 1/4
-- Plans completed: 4
-- Requirements delivered: 3/19 (LIB-01, LIB-02, PERF-01)
+- Phases completed: 2/4
+- Plans completed: 7
+- Requirements delivered: 11/19 (LIB-01, LIB-02, PERF-01, SKIM-01, SKIM-03, SKIM-04, SKIM-05, SKIM-06, SKIM-07, SKIM-08, PERF-02)
 
 ## Session Continuity
 
-Last updated: 2026-05-10 (Phase 2 executing — Wave 1+2 complete, Wave 3 checkpoint pending)
-Stopped at: Plans 02-01 and 02-02 complete; device verification checkpoint (02-03) awaiting human approval
-Next action: Test on physical device, then approve or report issues
+Last updated: 2026-05-10 (Phase 2 complete — 3/3 plans, device verified)
+Stopped at: Phase 2 complete; all skim interactions verified on device
+Next action: `/clear` then `/gsd-discuss-phase 3` or `/gsd-plan-phase 3`

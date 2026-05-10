@@ -1,17 +1,20 @@
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    static let shared = AppDelegate()
-    var orientationLock: UIInterfaceOrientationMask = .portrait
+    // Static so the value is shared between the SwiftUI-created instance (which
+    // receives delegate callbacks) and any caller that holds a different reference.
+    // @UIApplicationDelegateAdaptor creates its own instance; a separate `shared`
+    // singleton would give the system delegate a stale .portrait lock forever.
+    static var orientationLock: UIInterfaceOrientationMask = .portrait
 
     func application(
         _ application: UIApplication,
         supportedInterfaceOrientationsFor window: UIWindow?
     ) -> UIInterfaceOrientationMask {
-        return orientationLock
+        AppDelegate.orientationLock
     }
 
-    func lockOrientation(_ mask: UIInterfaceOrientationMask) {
+    static func lockOrientation(_ mask: UIInterfaceOrientationMask) {
         orientationLock = mask
         UIApplication.shared.connectedScenes.forEach { scene in
             guard let windowScene = scene as? UIWindowScene else { return }

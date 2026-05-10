@@ -18,9 +18,9 @@ struct ContentView: View {
         .onChange(of: appViewModel.screen) { newScreen in
             switch newScreen {
             case .library:
-                AppDelegate.shared.lockOrientation(.portrait)
+                AppDelegate.lockOrientation(.portrait)
             case .skim:
-                AppDelegate.shared.lockOrientation(.landscape)
+                AppDelegate.lockOrientation(.landscape)
             }
         }
     }

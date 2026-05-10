@@ -14,10 +14,10 @@
 4. Scrolling the library grid remains smooth while thumbnails load asynchronously in the background.
 **Plans:** 4 plans
 Plans:
-- [ ] 01-01-PLAN.md — XcodeGen scaffold, core Swift type graph, project compiles (Wave 1)
-- [ ] 01-02-PLAN.md — Photos authorization flow, LibraryView, LibraryCell async thumbnails (Wave 2)
-- [ ] 01-03-PLAN.md — PlayerView AVPlayerLayer bridge, SkimView full chrome shell (Wave 3)
-- [ ] 01-04-PLAN.md — Integration wiring, orientation lock, device verification checkpoint (Wave 4)
+- [x] 01-01-PLAN.md — XcodeGen scaffold, core Swift type graph, project compiles (Wave 1)
+- [x] 01-02-PLAN.md — Photos authorization flow, LibraryView, LibraryCell async thumbnails (Wave 2)
+- [x] 01-03-PLAN.md — PlayerView AVPlayerLayer bridge, SkimView full chrome shell (Wave 3)
+- [x] 01-04-PLAN.md — Integration wiring, orientation lock, device verification checkpoint (Wave 4)
 **UI hint:** yes
 
 ### Phase 2: Skim Interactions

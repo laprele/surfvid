@@ -19,7 +19,7 @@ See: .planning/PROJECT.md
 ## Current Position
 
 **Phase:** 2 — Skim Interactions
-**Plan:** 3 plans (Wave 1→2→3)
+**Plan:** 3 plans (Wave 1→2→3) — 2/3 complete, Wave 3 checkpoint pending
 **Progress:** 1/4 phases complete
 
 ```
@@ -57,6 +57,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-10 (Phase 2 planned — 3 plans, verification passed)
-Stopped at: Phase 2 planning complete; checker passed with 0 blockers
-Next action: `/clear` then `/gsd-execute-phase 2`
+Last updated: 2026-05-10 (Phase 2 executing — Wave 1+2 complete, Wave 3 checkpoint pending)
+Stopped at: Plans 02-01 and 02-02 complete; device verification checkpoint (02-03) awaiting human approval
+Next action: Test on physical device, then approve or report issues

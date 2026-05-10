@@ -33,8 +33,8 @@ Plans:
 5. User can repeat the In/Out process multiple times in one session; all marked clip ranges are shown in the mini filmstrip at the bottom of the skim view, with filmstrip thumbnails generated asynchronously so the skim UI is never blocked.
 **Plans:** 3 plans
 Plans:
-- [ ] 02-01-PLAN.md — AppViewModel Clip state machine + PlayerController seek throttle, CADisplayLink, time observer (Wave 1)
-- [ ] 02-02-PLAN.md — SkimView gesture wiring + TimelineBar Canvas, all controls live (Wave 2)
+- [x] 02-01-PLAN.md — AppViewModel Clip state machine + PlayerController seek throttle, CADisplayLink, time observer (Wave 1)
+- [x] 02-02-PLAN.md — SkimView gesture wiring + TimelineBar Canvas, all controls live (Wave 2)
 - [ ] 02-03-PLAN.md — Device verification checkpoint (Wave 3)
 **UI hint:** yes
 

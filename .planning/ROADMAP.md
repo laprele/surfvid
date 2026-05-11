@@ -47,7 +47,10 @@ Plans:
 1. User navigates to the review screen and sees a list of all clips with start time, end time, and duration for each.
 2. User deletes a clip from the review list; it disappears immediately.
 3. User taps "back to skim" from the review screen; the skim view reopens with the same video at the same playhead position and all previously marked clips intact.
-**Plans:** TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Screen enum .review case, ContentView routing + orientation lock, SkimView Done wire-up, ReviewView dark-theme shell (Wave 1)
+- [ ] 03-02-PLAN.md — ReviewView clip list, swipe-to-delete, dark-theme List styling, empty state (Wave 2)
 **UI hint:** yes
 
 ### Phase 4: Export

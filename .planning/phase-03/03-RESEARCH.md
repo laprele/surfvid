@@ -575,7 +575,7 @@ Button("Done") { appViewModel.screen = .review }
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Clip count badge in SkimView top chrome**
    - What we know: SkimView currently shows "N marked" in the bottom chrome (line 181). There is no Done button badge.

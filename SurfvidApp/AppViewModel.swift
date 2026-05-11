@@ -2,7 +2,7 @@ import SwiftUI
 import Photos
 import Combine
 
-enum Screen { case library, skim }
+enum Screen { case library, skim, review }
 
 class AppViewModel: ObservableObject {
     @Published var screen: Screen = .library

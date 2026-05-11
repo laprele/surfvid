@@ -137,14 +137,15 @@ struct SkimView: View {
 
             Spacer()
 
-            // Done pill — Phase 3 wires to review screen
-            Button("Done") { /* Phase 3: trigger review screen */ }
+            // Done pill — navigates to Review screen; disabled when no clips marked
+            Button("Done") { appViewModel.screen = .review }
                 .font(.caption.weight(.semibold))
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.white)
                 .foregroundColor(Color.black)
                 .clipShape(Capsule())
+                .disabled(appViewModel.clips.isEmpty)
         }
         .padding(.horizontal, 18)
         .padding(.top, 14)

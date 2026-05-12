@@ -52,9 +52,17 @@ Distribution: personal device first (sideload/Xcode), with App Store release as 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| SwiftUI over React Native | Native iOS feel is the priority; prototype already proved the concept | — Pending |
-| Individual clip export over merge | User explicitly wants separate files, not a joined video | — Pending |
-| Camera roll only (no live capture) | Simpler scope; the workflow starts after footage exists | — Pending |
+| SwiftUI over React Native | Native iOS feel is the priority; prototype already proved the concept | ✓ Good — no friction, full AVFoundation access |
+| Individual clip export over merge | User explicitly wants separate files, not a joined video | ✓ Good — simpler ExportManager, clear UX |
+| Camera roll only (no live capture) | Simpler scope; the workflow starts after footage exists | ✓ Good — correct scope for v1 |
+| ZStack screen swap over NavigationStack | Landscape orientation lock incompatible with NavigationStack push | ✓ Good — clean transitions, no orientation edge cases |
+| AVPlayer streams from Photos asset URL | Large files (15-20 GB) must not load into memory | ✓ Good — no memory pressure on hour-long files |
+| AVAssetExportPresetPassthrough | No re-encode; export time proportional to clip length only | ✓ Good — fast export verified on device |
+| objectWillChange forwarding (PlayerController → AppViewModel) | Views that observe AppViewModel need to react to PlayerController changes | ✓ Good — prevents stale UI without TCA or Combine chains |
+| @GestureState for in-flight gesture values | Auto-resets on gesture end; prevents committed state from being mutated mid-gesture | ✓ Good — clean pinch + pan implementation |
+| Stay on ReviewView after export (no DoneView auto-nav) | Device testing revealed users want to share immediately from clip list | ✓ Good — user validated on device |
+| await MainActor.run after AVFoundation awaits | AVFoundation continuation resumes on background thread; @Published mutations must be on MainActor | ✓ Good — prevents silent dropped UI updates |
+| Single DragGesture routes scrub vs pan (guard zoom <= 1) | Avoids needing a second DragGesture and conflicting gesture recognition | ✓ Good — no gesture ambiguity |
 
 ## Evolution
 
@@ -74,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-12 — Milestone 1 (v1.1) complete, all 6 phases shipped*
+*Last updated: 2026-05-12 — v1.1 milestone archived, all 6 phases shipped and human-verified*

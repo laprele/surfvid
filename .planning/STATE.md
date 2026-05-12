@@ -20,15 +20,9 @@ See: .planning/PROJECT.md
 
 ## Current Position
 
-**Phase:** 6 — Pinch-to-Zoom
-**Progress:** 6/6 phases complete · Milestone 1 delivered
-**Next action:** Human test pinch-to-zoom on device/simulator, then push to origin
-
-```
-[Phase 1] [Phase 2] [Phase 3] [Phase 4] [Phase 5] [Phase 6]
-                                                  ^
-                                                  Next
-```
+**Milestone:** v1.1 — SHIPPED 2026-05-12
+**Progress:** 6/6 phases complete · All 19/19 requirements delivered
+**Next action:** `/gsd-new-milestone` to plan v1.2 or v2.0
 
 ## Accumulated Context
 
@@ -65,5 +59,5 @@ See: .planning/PROJECT.md
 ## Session Continuity
 
 Last updated: 2026-05-12
-Stopped at: Phase 6 complete — pinch-to-zoom + timeline-while-zoomed shipped
-Next action: `git push origin main` to publish v1.1
+Stopped at: v1.1 milestone archived — all phases complete
+Next action: `/gsd-new-milestone` to start v1.2 or v2.0 planning

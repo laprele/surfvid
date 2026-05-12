@@ -66,8 +66,14 @@ Plans:
 5. Exporting a 30-second clip from a 15 GB source file completes quickly using passthrough preset — no re-encode, export time is proportional to clip length only.
 **Plans:** 2 plans
 Plans:
+**Wave 1**
 - [ ] 04-01-PLAN.md — ExportManager, AppViewModel export state + startExport, ContentView .done routing (Wave 1)
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 04-02-PLAN.md — ReviewView Export button + progress + Share, DoneView, ActivityViewController; device checkpoint (Wave 2)
+
+Cross-cutting constraints:
+- `AVAssetExportPresetPassthrough` locked — no re-encode (both plans)
+- Sequential export loop — one `AVAssetExportSession` at a time (both plans)
 **UI hint:** yes
 
 ---

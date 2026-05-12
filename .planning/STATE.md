@@ -5,7 +5,7 @@ See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
 **Current phase:** Phase 4 — Export
-**Status:** Phase 3 complete; Phase 4 not started
+**Status:** Phase 4 planned; ready to execute
 
 ## Phase Status
 
@@ -14,12 +14,12 @@ See: .planning/PROJECT.md
 | 1 | App Shell & Video Browsing | Complete ✓ (2026-05-10) |
 | 2 | Skim Interactions | Complete ✓ (2026-05-10) |
 | 3 | Review Screen | Complete ✓ (2026-05-12) |
-| 4 | Export | Not started |
+| 4 | Export | Ready to execute (2 plans) |
 
 ## Current Position
 
 **Phase:** 4 — Export
-**Plan:** Not yet planned
+**Plan:** 2 plans in 2 waves — ready to execute
 **Progress:** 3/4 phases complete
 
 ```
@@ -58,6 +58,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-12 (Phase 3 complete)
-Stopped at: Phase 3 fully executed and verified; scrub-anchor bug also fixed
-Next action: `/gsd-discuss-phase 4` then `/gsd-plan-phase 4` then `/gsd-execute-phase 4`
+Last updated: 2026-05-12 (Phase 4 planned)
+Stopped at: Phase 4 plans verified and ready to execute
+Next action: `/gsd-execute-phase 4`

@@ -86,7 +86,7 @@ Cross-cutting constraints:
 2. No UI changes — purely a constant adjustment.
 **Plans:** 1 plan
 Plans:
-- [x] 05-01-PLAN.md — Tune PX_PER_S constant from 0.6 → 1.2 (device-verify, adjust if needed)
+- [x] 05-01-PLAN.md — PX_PER_S 0.6 → 1.2; zero-tolerance seeks for exact inter-keyframe frames; device verified ✓
 
 ### Phase 6: Pinch-to-Zoom
 **Goal:** User can pinch to zoom into the video frame while skimming, pan the zoomed frame by dragging, and double-tap to reset — enabling precise inspection of framing and action before committing an In/Out point.

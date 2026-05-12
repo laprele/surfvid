@@ -22,6 +22,7 @@ See: .planning/PROJECT.md
 
 **Phase:** 6 — Pinch-to-Zoom
 **Progress:** 5/6 phases complete · Phase 6 queued
+**Next action:** `/gsd-plan-phase 6` when ready
 
 ```
 [Phase 1] [Phase 2] [Phase 3] [Phase 4] [Phase 5] [Phase 6]

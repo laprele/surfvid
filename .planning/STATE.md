@@ -19,7 +19,7 @@ See: .planning/PROJECT.md
 ## Current Position
 
 **Phase:** 4 — Export
-**Plan:** 2 plans in 2 waves — ready to execute
+**Plan:** Wave 1 complete (04-01); Wave 2 executing (04-02)
 **Progress:** 3/4 phases complete
 
 ```

@@ -5,7 +5,7 @@ See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
 **Current phase:** Phase 6 — Pinch-to-Zoom
-**Status:** Complete — human testing pending
+**Status:** Complete — human verified ✓
 
 ## Phase Status
 

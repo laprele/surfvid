@@ -268,15 +268,20 @@ struct SkimView: View {
     private var scrubGesture: some Gesture {
         DragGesture(minimumDistance: 8)
             .onChanged { value in
-                let dx = Double(value.location.x - lastDragX)
-                lastDragX = value.location.x
-
+                let dx: Double
                 if !isScrubbing {
                     isScrubbing = true
                     appViewModel.playerController.isScrubbing = true
                     appViewModel.playerController.player.pause()   // D-03: always pause
                     appViewModel.playerController.isPlaying = false
                     appViewModel.playerController.startDisplayLink()
+                    // Anchor lastDragX to first touch so the first delta is 0,
+                    // not (touch.x - 0) which would seek to the beginning.
+                    lastDragX = value.location.x
+                    dx = 0
+                } else {
+                    dx = Double(value.location.x - lastDragX)
+                    lastDragX = value.location.x
                 }
 
                 // dSec = -dx / PX_PER_S → right drag (positive dx) → earlier in video

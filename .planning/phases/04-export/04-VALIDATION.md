@@ -1,9 +1,9 @@
 ---
 phase: 4
 slug: export
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: verified
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-05-12
 ---
 
@@ -40,14 +40,14 @@ created: 2026-05-12
 
 | Task ID | Plan | Wave | Requirement | Secure Behavior | Test Type | Automated Command | Status |
 |---------|------|------|-------------|-----------------|-----------|-------------------|--------|
-| 4-01-01 | 01 | 1 | EXP-01, PERF-03 | clip.end > clip.start enforced | build | `xcodebuild build ...` | ⬜ pending |
-| 4-01-02 | 01 | 1 | EXP-01, EXP-02 | isExporting guards mutation | build | `xcodebuild build ...` | ⬜ pending |
-| 4-01-03 | 01 | 1 | EXP-02 | progress polled via Timer not KVO | build | `xcodebuild build ...` | ⬜ pending |
-| 4-01-04 | 01 | 1 | EXP-03 | screen = .done after all clips | build | `xcodebuild build ...` | ⬜ pending |
-| 4-02-01 | 02 | 2 | EXP-01 | MP4 appears in Camera Roll | manual | — | ⬜ pending |
-| 4-02-02 | 02 | 2 | EXP-02 | progress bar updates during export | manual | — | ⬜ pending |
-| 4-02-03 | 02 | 2 | EXP-03 | Done screen + auto-return 2.5s | manual | — | ⬜ pending |
-| 4-02-04 | 02 | 2 | EXP-04 | Share sheet opens with file URL | manual | — | ⬜ pending |
+| 4-01-01 | 01 | 1 | EXP-01, PERF-03 | clip.end > clip.start enforced | build | `xcodebuild build ...` | ✅ green |
+| 4-01-02 | 01 | 1 | EXP-01, EXP-02 | isExporting guards mutation | build | `xcodebuild build ...` | ✅ green |
+| 4-01-03 | 01 | 1 | EXP-02 | progress polled via Timer not KVO | build | `xcodebuild build ...` | ✅ green |
+| 4-01-04 | 01 | 1 | EXP-03 | screen = .done after all clips | build | `xcodebuild build ...` | ✅ green |
+| 4-02-01 | 02 | 2 | EXP-01 | MP4 appears in Camera Roll | manual | — | ✅ green |
+| 4-02-02 | 02 | 2 | EXP-02 | progress bar updates during export | manual | — | ✅ green |
+| 4-02-03 | 02 | 2 | EXP-03 | Done screen + auto-return 2.5s | manual | — | ✅ green |
+| 4-02-04 | 02 | 2 | EXP-04 | Share sheet opens with file URL | manual | — | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -76,10 +76,10 @@ No new test framework installation needed. Verification is build-success + manua
 
 ## Validation Sign-Off
 
-- [ ] All tasks have build-pass verify or manual checklist entry
-- [ ] Sampling continuity: build check after each task commit
-- [ ] No watch-mode flags
-- [ ] Manual checklist completed on real device before verification
-- [ ] `nyquist_compliant: true` set in frontmatter when checklist passes
+- [x] All tasks have build-pass verify or manual checklist entry
+- [x] Sampling continuity: build check after each task commit
+- [x] No watch-mode flags
+- [x] Manual checklist completed on real device before verification
+- [x] `nyquist_compliant: true` set in frontmatter when checklist passes
 
-**Approval:** pending
+**Approval:** 2026-05-12

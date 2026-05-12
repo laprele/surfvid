@@ -4,8 +4,8 @@
 See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
-**Current phase:** Phase 4 — Export
-**Status:** Phase 4 executed; pending verification
+**Current phase:** Phase 5 — Skim Sensitivity
+**Status:** Phase 5 added — not yet planned
 
 ## Phase Status
 
@@ -14,18 +14,19 @@ See: .planning/PROJECT.md
 | 1 | App Shell & Video Browsing | Complete ✓ (2026-05-10) |
 | 2 | Skim Interactions | Complete ✓ (2026-05-10) |
 | 3 | Review Screen | Complete ✓ (2026-05-12) |
-| 4 | Export | Ready to execute (2 plans) |
+| 4 | Export | Complete ✓ (2026-05-12) |
+| 5 | Skim Sensitivity | Not planned |
+| 6 | Pinch-to-Zoom | Not planned |
 
 ## Current Position
 
-**Phase:** 4 — Export
-**Plan:** Both plans complete (04-01, 04-02) — device verified
-**Progress:** 4/4 phases executed
+**Phase:** 5 — Skim Sensitivity
+**Progress:** 4/4 v1.0 phases complete · Phases 5–6 queued
 
 ```
-[Phase 1] [Phase 2] [Phase 3] [Phase 4]
-                                 ^
-                                 Next
+[Phase 1] [Phase 2] [Phase 3] [Phase 4] [Phase 5] [Phase 6]
+                                                  ^
+                                                  Next
 ```
 
 ## Accumulated Context
@@ -38,6 +39,10 @@ See: .planning/PROJECT.md
 - ZStack screen swap (not NavigationStack push) for Library→Skim due to landscape orientation
 - Flat MVVM with single AppViewModel @StateObject as root; no TCA
 - objectWillChange forwarding: AppViewModel must forward playerController.objectWillChange so views observe PlayerController changes
+
+### Roadmap Evolution
+- Phase 5 added: Skim Sensitivity (promoted from backlog 999.1, 2026-05-12)
+- Phase 6 added: Pinch-to-Zoom (2026-05-12)
 
 ### Known Risks
 - Volume button In/Out marking (deferred to v2): sandboxed gray-area hack via AVAudioSession KVO; on-screen tap buttons are the v1 interaction
@@ -58,6 +63,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-12 (Phase 4 planned)
-Stopped at: Phase 4 plans verified and ready to execute
-Next action: `/gsd-execute-phase 4`
+Last updated: 2026-05-12 (Phase 5 added from backlog 999.1)
+Stopped at: Phase 5 added to roadmap, not yet planned
+Next action: `/gsd-discuss-phase 5` or `/gsd-plan-phase 5`

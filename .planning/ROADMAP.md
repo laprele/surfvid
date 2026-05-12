@@ -76,18 +76,34 @@ Cross-cutting constraints:
 - Sequential export loop — one `AVAssetExportSession` at a time (both plans)
 **UI hint:** yes
 
----
-
-## Backlog
-
-### Phase 999.1: Adjust skimming sensitivity to be able to define point more granularly (BACKLOG)
-
-**Goal:** [Captured for future planning]
+### Phase 5: Skim Sensitivity
+**Goal:** User can switch between a fast scrub speed for coarse navigation and a slow scrub speed for frame-precise In/Out point definition — without leaving the skim screen.
+**Mode:** mvp
+**Depends on:** Phase 2
 **Requirements:** TBD
+**Success Criteria:**
+1. User can activate a "fine scrub" mode from the skim screen and the drag gesture moves the playhead at a significantly reduced rate, making it easy to land on exact frames.
+2. User can return to normal scrub speed from the same screen — the mode toggle is visible and reachable with one tap.
+3. The current sensitivity mode persists across In/Out marking cycles within the same skim session.
+4. Switching sensitivity does not interrupt playback state or reset the marked clip list.
 **Plans:** 0 plans
-
 Plans:
-- [ ] TBD (promote with /gsd-review-backlog when ready)
+- [ ] TBD
+
+### Phase 6: Pinch-to-Zoom
+**Goal:** User can pinch to zoom into the video frame while skimming, pan the zoomed frame by dragging, and double-tap to reset — enabling precise inspection of framing and action before committing an In/Out point.
+**Mode:** mvp
+**Depends on:** Phase 2
+**Requirements:** TBD
+**Success Criteria:**
+1. User pinches on the video surface and the video zooms in, centered on the pinch midpoint, up to a reasonable maximum (e.g. 4×).
+2. While zoomed in, user can drag to pan the frame — the scrub gesture and pan gesture coexist without conflict.
+3. User double-taps to instantly reset zoom to 1× and pan offset to zero.
+4. A zoom level indicator (e.g. "2×") appears on screen while zoom is active and hides at 1×.
+5. Zoom and pan state do not interfere with In/Out marking, clip list, or playback — resetting zoom does not move the playhead.
+**Plans:** 0 plans
+Plans:
+- [ ] TBD
 
 ---
 

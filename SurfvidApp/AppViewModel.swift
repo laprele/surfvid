@@ -2,7 +2,7 @@ import SwiftUI
 import Photos
 import Combine
 
-enum Screen { case library, skim, review }
+enum Screen { case library, skim, review, done }
 
 class AppViewModel: ObservableObject {
     @Published var screen: Screen = .library
@@ -14,18 +14,30 @@ class AppViewModel: ObservableObject {
         let id = UUID()
         let start: Double   // seconds
         let end: Double     // seconds
+        // Phase 4: export state
+        var exportProgress: Float = 0.0     // 0.0–1.0, polled from AVAssetExportSession.progress
+        var exportedURL: URL? = nil         // set after successful export; nil = not yet exported
     }
 
     @Published var clips: [Clip] = []
     @Published var pendingIn: Double? = nil
+    // Phase 4: export state
+    @Published var isExporting: Bool = false
+    @Published var currentAsset: PHAsset? = nil     // set in pickVideo; used by startExport
 
     let playerController: PlayerController  // D-10: created once in init
+    let exportManager: ExportManager        // Phase 4: export lifecycle manager
     private var cancellables = Set<AnyCancellable>()
 
     init() {
         self.playerController = PlayerController()
+        self.exportManager = ExportManager()
         // Forward PlayerController @Published changes so SkimView re-renders (currentTime, isPlaying)
         playerController.objectWillChange
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+        // Forward ExportManager objectWillChange so views observe export state changes
+        exportManager.objectWillChange
             .sink { [weak self] _ in self?.objectWillChange.send() }
             .store(in: &cancellables)
         // D-06: Returning user with previously granted access sees library immediately,
@@ -37,6 +49,7 @@ class AppViewModel: ObservableObject {
 
     func pickVideo(_ asset: PHAsset) {
         resetForNewVideo()          // reset clip state on each new video load
+        currentAsset = asset        // Phase 4: retain for export (set after reset to avoid nil)
         Task {
             await playerController.load(asset: asset)
             await MainActor.run { screen = .skim }
@@ -91,5 +104,52 @@ class AppViewModel: ObservableObject {
     func resetForNewVideo() {
         clips = []
         pendingIn = nil
+        isExporting = false     // Phase 4
+        currentAsset = nil      // Phase 4
+    }
+
+    // Phase 4: Export all clips sequentially using ExportManager
+    func startExport() {
+        guard !clips.isEmpty, !isExporting, let asset = currentAsset else { return }
+        isExporting = true
+
+        // Wire progress callback — updates per-clip progress on main actor
+        exportManager.onProgress = { [weak self] id, progress in
+            guard let self else { return }
+            if let i = self.clips.firstIndex(where: { $0.id == id }) {
+                self.clips[i].exportProgress = progress
+            }
+        }
+
+        // Wire completion callback — marks clip as done on main actor
+        exportManager.onClipComplete = { [weak self] id, url in
+            guard let self else { return }
+            if let i = self.clips.firstIndex(where: { $0.id == id }) {
+                self.clips[i].exportedURL = url
+                self.clips[i].exportProgress = 1.0
+            }
+        }
+
+        // Wire failure callback — leaves clip at current progress state
+        exportManager.onClipFailed = { [weak self] id, _ in
+            guard let self else { return }
+            // Clip stays at whatever progress it reached; no UI change beyond that
+            _ = self.clips.firstIndex(where: { $0.id == id })
+        }
+
+        // Run sequential export loop in a Task
+        Task {
+            for clip in clips {
+                do {
+                    let url = try await exportManager.exportClip(clip, phAsset: asset)
+                    try await exportManager.saveToPhotoLibrary(fileURL: url)
+                    exportManager.onClipComplete?(clip.id, url)
+                } catch {
+                    exportManager.onClipFailed?(clip.id, error)
+                }
+            }
+            isExporting = false
+            screen = .done
+        }
     }
 }

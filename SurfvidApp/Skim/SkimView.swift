@@ -15,9 +15,8 @@ struct SkimView: View {
     enum HUDKind { case inPoint, outPoint }
 
     // D-04: Velocity-driven — right drag = earlier, left drag = later (prototype direction)
-    // Tune PX_PER_S on device with real H.264 footage. Prototype used 0.6.
     // Higher value = slower seek per pixel; lower value = faster.
-    private let PX_PER_S: Double = 0.6
+    private let PX_PER_S: Double = 1.2
 
     // MARK: - Body
 

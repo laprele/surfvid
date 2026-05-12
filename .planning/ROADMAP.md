@@ -77,18 +77,16 @@ Cross-cutting constraints:
 **UI hint:** yes
 
 ### Phase 5: Skim Sensitivity
-**Goal:** User can switch between a fast scrub speed for coarse navigation and a slow scrub speed for frame-precise In/Out point definition — without leaving the skim screen.
+**Goal:** Adjust the hardcoded scrub sensitivity constant so drag-to-skim feels precise enough to land on exact frames without requiring a UI toggle.
 **Mode:** mvp
 **Depends on:** Phase 2
 **Requirements:** TBD
 **Success Criteria:**
-1. User can activate a "fine scrub" mode from the skim screen and the drag gesture moves the playhead at a significantly reduced rate, making it easy to land on exact frames.
-2. User can return to normal scrub speed from the same screen — the mode toggle is visible and reachable with one tap.
-3. The current sensitivity mode persists across In/Out marking cycles within the same skim session.
-4. Switching sensitivity does not interrupt playback state or reset the marked clip list.
-**Plans:** 0 plans
+1. `PX_PER_S` tuned so a full-width swipe covers a comfortable range for both coarse navigation and frame-precise marking.
+2. No UI changes — purely a constant adjustment.
+**Plans:** 1 plan
 Plans:
-- [ ] TBD
+- [x] 05-01-PLAN.md — Tune PX_PER_S constant from 0.6 → 1.2 (device-verify, adjust if needed)
 
 ### Phase 6: Pinch-to-Zoom
 **Goal:** User can pinch to zoom into the video frame while skimming, pan the zoomed frame by dragging, and double-tap to reset — enabling precise inspection of framing and action before committing an In/Out point.

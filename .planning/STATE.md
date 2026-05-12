@@ -15,13 +15,13 @@ See: .planning/PROJECT.md
 | 2 | Skim Interactions | Complete ✓ (2026-05-10) |
 | 3 | Review Screen | Complete ✓ (2026-05-12) |
 | 4 | Export | Complete ✓ (2026-05-12) |
-| 5 | Skim Sensitivity | Not planned |
+| 5 | Skim Sensitivity | Complete ✓ (2026-05-12) |
 | 6 | Pinch-to-Zoom | Not planned |
 
 ## Current Position
 
-**Phase:** 5 — Skim Sensitivity
-**Progress:** 4/4 v1.0 phases complete · Phases 5–6 queued
+**Phase:** 6 — Pinch-to-Zoom
+**Progress:** 5/6 phases complete · Phase 6 queued
 
 ```
 [Phase 1] [Phase 2] [Phase 3] [Phase 4] [Phase 5] [Phase 6]

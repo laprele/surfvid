@@ -282,6 +282,8 @@ struct SkimView: View {
                 endPoint: .bottom
             )
         )
+        .contentShape(Rectangle())
+        .gesture(timelineScrubGesture)
     }
 
     // MARK: - Scrub / pan gesture
@@ -293,6 +295,8 @@ struct SkimView: View {
     // Pattern 4: minimumDistance:8 avoids tap/drag conflict.
     // When zoom > 1 the gesture pans instead of scrubbing. Pan offset is accumulated in
     // .updating($livePanDelta) (auto-resets via @GestureState) and committed in .onEnded.
+    // Timeline zone (bottomChrome) intercepts drags first via timelineScrubGesture —
+    // those always scrub regardless of zoom.
     private var scrubOrPanGesture: some Gesture {
         DragGesture(minimumDistance: 8)
             .updating($livePanDelta) { value, state, _ in
@@ -300,39 +304,12 @@ struct SkimView: View {
                 state = value.translation
             }
             .onChanged { value in
-                // When zoomed, pan is handled by .updating above; skip scrub.
                 guard zoom <= 1 else { return }
-                let dx: Double
-                if !isScrubbing {
-                    isScrubbing = true
-                    appViewModel.playerController.isScrubbing = true
-                    appViewModel.playerController.player.pause()   // D-03: always pause
-                    appViewModel.playerController.isPlaying = false
-                    appViewModel.playerController.startDisplayLink()
-                    // Anchor lastDragX to first touch so the first delta is 0,
-                    // not (touch.x - 0) which would seek to the beginning.
-                    lastDragX = value.location.x
-                    dx = 0
-                } else {
-                    dx = Double(value.location.x - lastDragX)
-                    lastDragX = value.location.x
-                }
-                // dSec = -dx / PX_PER_S → right drag (positive dx) → earlier in video
-                let dSec = -dx / PX_PER_S
-                let current = appViewModel.playerController.currentTime
-                let dur = appViewModel.playerController.duration
-                // Clamp to [0, duration] — T-02-01 clamp enforced here
-                let newTime = max(0, min(dur > 0 ? dur : Double.greatestFiniteMagnitude, current + dSec))
-                appViewModel.playerController.updateSeekTarget(newTime)
+                handleScrubChanged(value)
             }
             .onEnded { value in
-                // Clean up scrub state unconditionally (safe no-op if scrub was not active)
                 if isScrubbing {
-                    isScrubbing = false
-                    appViewModel.playerController.isScrubbing = false
-                    lastDragX = 0
-                    appViewModel.playerController.stopDisplayLink()
-                    // D-03: do NOT resume playback automatically
+                    handleScrubEnded()
                 } else if zoom > 1 {
                     committedPan.width += value.translation.width
                     committedPan.height += value.translation.height
@@ -340,6 +317,46 @@ struct SkimView: View {
                 }
                 // livePanDelta auto-resets to .zero via @GestureState — no manual reset needed
             }
+    }
+
+    // Always-scrub gesture for the timeline zone — ignores zoom state.
+    // Applied to bottomChrome, which is higher in Z order than the Color.clear gesture
+    // surface, so timeline-area drags are captured here before reaching scrubOrPanGesture.
+    private var timelineScrubGesture: some Gesture {
+        DragGesture(minimumDistance: 8)
+            .onChanged { value in handleScrubChanged(value) }
+            .onEnded { _ in handleScrubEnded() }
+    }
+
+    private func handleScrubChanged(_ value: DragGesture.Value) {
+        let dx: Double
+        if !isScrubbing {
+            isScrubbing = true
+            appViewModel.playerController.isScrubbing = true
+            appViewModel.playerController.player.pause()   // D-03: always pause
+            appViewModel.playerController.isPlaying = false
+            appViewModel.playerController.startDisplayLink()
+            // Anchor lastDragX to first touch so first delta is 0.
+            lastDragX = value.location.x
+            dx = 0
+        } else {
+            dx = Double(value.location.x - lastDragX)
+            lastDragX = value.location.x
+        }
+        let dSec = -dx / PX_PER_S
+        let current = appViewModel.playerController.currentTime
+        let dur = appViewModel.playerController.duration
+        let newTime = max(0, min(dur > 0 ? dur : Double.greatestFiniteMagnitude, current + dSec))
+        appViewModel.playerController.updateSeekTarget(newTime)
+    }
+
+    private func handleScrubEnded() {
+        guard isScrubbing else { return }
+        isScrubbing = false
+        appViewModel.playerController.isScrubbing = false
+        lastDragX = 0
+        appViewModel.playerController.stopDisplayLink()
+        // D-03: do NOT resume playback automatically
     }
 
     // MARK: - HUD flash (SKIM-07)

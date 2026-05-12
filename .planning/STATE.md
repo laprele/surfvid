@@ -63,6 +63,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-12 (Phase 5 added from backlog 999.1)
-Stopped at: Phase 5 added to roadmap, not yet planned
+Last updated: 2026-05-12 (shipped — pushed to origin/main)
+Stopped at: v1.0 shipped to origin/main · Phases 5–6 queued
 Next action: `/gsd-discuss-phase 5` or `/gsd-plan-phase 5`

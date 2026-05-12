@@ -268,7 +268,7 @@ struct SkimView: View {
                 Image(systemName: "hand.draw")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundColor(Color.white.opacity(0.7))
-                Text("Drag to skim · Tap to hide")
+                Text("Drag to skim · Pinch to zoom · Tap to hide")
                     .font(.caption)
                     .foregroundColor(Color.white.opacity(0.55))
             }
@@ -284,16 +284,24 @@ struct SkimView: View {
         )
     }
 
-    // MARK: - Scrub gesture
+    // MARK: - Scrub / pan gesture
 
     // D-04: Velocity-driven — drag right = earlier (negative dSec), drag left = later (positive dSec)
     // D-03: Scrubbing pauses playback on first event; no auto-resume on end.
     // D-05: CADisplayLink throttles seek; not every gesture event triggers a seek.
     // iOS 16 compatible: no DragGesture.Value.velocity (iOS 17+ only).
     // Pattern 4: minimumDistance:8 avoids tap/drag conflict.
-    private var scrubGesture: some Gesture {
+    // When zoom > 1 the gesture pans instead of scrubbing. Pan offset is accumulated in
+    // .updating($livePanDelta) (auto-resets via @GestureState) and committed in .onEnded.
+    private var scrubOrPanGesture: some Gesture {
         DragGesture(minimumDistance: 8)
+            .updating($livePanDelta) { value, state, _ in
+                guard zoom > 1 else { return }
+                state = value.translation
+            }
             .onChanged { value in
+                // When zoomed, pan is handled by .updating above; skip scrub.
+                guard zoom <= 1 else { return }
                 let dx: Double
                 if !isScrubbing {
                     isScrubbing = true
@@ -309,9 +317,7 @@ struct SkimView: View {
                     dx = Double(value.location.x - lastDragX)
                     lastDragX = value.location.x
                 }
-
                 // dSec = -dx / PX_PER_S → right drag (positive dx) → earlier in video
-                // Matches prototype: const dSec = -dx / PX_PER_S (prototype line 34)
                 let dSec = -dx / PX_PER_S
                 let current = appViewModel.playerController.currentTime
                 let dur = appViewModel.playerController.duration
@@ -319,12 +325,22 @@ struct SkimView: View {
                 let newTime = max(0, min(dur > 0 ? dur : Double.greatestFiniteMagnitude, current + dSec))
                 appViewModel.playerController.updateSeekTarget(newTime)
             }
-            .onEnded { _ in
-                isScrubbing = false
-                appViewModel.playerController.isScrubbing = false
-                lastDragX = 0
-                appViewModel.playerController.stopDisplayLink()
-                // D-03: do NOT resume playback automatically
+            .onEnded { value in
+                // Clean up scrub state unconditionally (safe no-op if scrub was not active)
+                if isScrubbing {
+                    isScrubbing = false
+                    appViewModel.playerController.isScrubbing = false
+                    lastDragX = 0
+                    appViewModel.playerController.stopDisplayLink()
+                    // D-03: do NOT resume playback automatically
+                }
+                // Commit pan offset when zoomed
+                if zoom > 1 {
+                    committedPan.width += value.translation.width
+                    committedPan.height += value.translation.height
+                    clampPan()
+                }
+                // livePanDelta auto-resets to .zero via @GestureState — no manual reset needed
             }
     }
 

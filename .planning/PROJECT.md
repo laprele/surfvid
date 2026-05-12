@@ -12,19 +12,18 @@ Get to your best moments and export them, without ever leaving your phone.
 
 ### Validated
 
-- ✓ Library → skim → review → export screen flow — existing prototype
-- ✓ Drag-to-scrub interaction model — existing prototype
-- ✓ Volume-button In/Out marking concept — existing prototype
-- ✓ Per-clip trim scrubbers in review — existing prototype
+- ✓ Library → skim → review → export screen flow — Phase 1–4
+- ✓ Drag-to-scrub with frame-accurate seeks — Phase 2, Phase 5
+- ✓ Mark multiple clips in one session, export each as separate file — Phase 2–4
+- ✓ Real video playback from iPhone camera roll (Photos framework) — Phase 1
+- ✓ AVFoundation passthrough export — Phase 4
+- ✓ Pinch-to-zoom + pan while skimming — Phase 6
+- ✓ Volume-button In/Out marking concept — existing prototype (v2 implementation)
 
 ### Active
 
-- [ ] Real video playback from iPhone camera roll (Photos framework)
-- [ ] AVFoundation-based scrubbing with accurate playhead position
-- [ ] Hardware volume button In/Out marking on actual device
-- [ ] Mark multiple clips from a single video in one skim session
-- [ ] Review screen with per-clip trim scrubbers
-- [ ] Export each clip as a separate trimmed video file to Photos
+- [ ] Hardware volume button In/Out marking on actual device (v2)
+- [ ] Per-clip trim scrubbers in review screen (deferred — current review shows fixed In/Out times)
 
 ### Out of Scope
 
@@ -75,4 +74,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-09 after initialization*
+*Last updated: 2026-05-12 — Milestone 1 (v1.1) complete, all 6 phases shipped*

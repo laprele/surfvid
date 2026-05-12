@@ -64,6 +64,6 @@ See: .planning/PROJECT.md
 
 ## Session Continuity
 
-Last updated: 2026-05-12 (shipped — pushed to origin/main)
-Stopped at: v1.0 shipped to origin/main · Phases 5–6 queued
-Next action: `/gsd-discuss-phase 5` or `/gsd-plan-phase 5`
+Last updated: 2026-05-12
+Stopped at: Phase 6 complete — pinch-to-zoom + timeline-while-zoomed shipped
+Next action: `git push origin main` to publish v1.1

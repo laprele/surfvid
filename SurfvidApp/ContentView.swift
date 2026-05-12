@@ -15,6 +15,9 @@ struct ContentView: View {
             case .review:
                 ReviewView()
                     .transition(.opacity)
+            case .done:
+                DoneView()
+                    .transition(.opacity)
             }
         }
         .animation(.easeOut(duration: 0.2), value: appViewModel.screen)
@@ -25,6 +28,8 @@ struct ContentView: View {
             case .skim:
                 AppDelegate.lockOrientation(.landscape)
             case .review:
+                AppDelegate.lockOrientation(.landscape)
+            case .done:
                 AppDelegate.lockOrientation(.landscape)
             }
         }

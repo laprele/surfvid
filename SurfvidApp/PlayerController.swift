@@ -82,10 +82,12 @@ class PlayerController: ObservableObject {
               player.currentItem?.status == .readyToPlay else { return }  // Pitfall 1 guard
         let target = chaseTime
         isSeekInProgress = true
+        // Zero tolerance: exact frame decode (no keyframe snapping). Slower per seek
+        // but chase-time queuing ensures only one seek in-flight — same pattern Photos uses.
         player.seek(
             to: target,
-            toleranceBefore: CMTime(seconds: 0.5, preferredTimescale: 600),
-            toleranceAfter:  CMTime(seconds: 0.5, preferredTimescale: 600)
+            toleranceBefore: .zero,
+            toleranceAfter:  .zero
         ) { [weak self] finished in
             guard let self else { return }
             if finished {

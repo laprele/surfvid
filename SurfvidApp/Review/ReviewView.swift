@@ -113,7 +113,7 @@ struct ReviewView: View {
                                 activityItems: appViewModel.clips.compactMap { $0.exportedURL }
                             )
                         }
-                } else {
+                } else if !appViewModel.clips.isEmpty {
                     Button("Export All") { appViewModel.startExport() }
                         .font(.caption.weight(.semibold))
                         .padding(.horizontal, 12)
@@ -121,7 +121,6 @@ struct ReviewView: View {
                         .background(Color.white)
                         .foregroundColor(Color.black)
                         .clipShape(Capsule())
-                        .disabled(appViewModel.clips.isEmpty)
                 }
             }
         }

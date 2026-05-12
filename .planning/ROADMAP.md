@@ -64,7 +64,10 @@ Plans:
 3. After all clips finish exporting, a confirmation message or screen is shown.
 4. User can tap Share on a clip to open the iOS Share Sheet and send the file via AirDrop, Files, iCloud, or any share destination.
 5. Exporting a 30-second clip from a 15 GB source file completes quickly using passthrough preset — no re-encode, export time is proportional to clip length only.
-**Plans:** TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 04-01-PLAN.md — ExportManager, AppViewModel export state + startExport, ContentView .done routing (Wave 1)
+- [ ] 04-02-PLAN.md — ReviewView Export button + progress + Share, DoneView, ActivityViewController; device checkpoint (Wave 2)
 **UI hint:** yes
 
 ---

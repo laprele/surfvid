@@ -8,7 +8,11 @@ struct ReviewView: View {
             ZStack(alignment: .top) {
                 Color.black.ignoresSafeArea()
 
-                Color.clear
+                if appViewModel.clips.isEmpty {
+                    emptyState
+                } else {
+                    clipList
+                }
 
                 VStack(spacing: 0) {
                     topChrome
@@ -20,6 +24,63 @@ struct ReviewView: View {
         }
         .background(Color.black)
         .ignoresSafeArea()
+    }
+
+    private var clipList: some View {
+        List {
+            ForEach(appViewModel.clips) { clip in
+                clipRow(clip)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparatorTint(Color.white.opacity(0.12))
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            if let index = appViewModel.clips.firstIndex(where: { $0.id == clip.id }) {
+                                appViewModel.clips.remove(at: index)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .padding(.top, 56)
+    }
+
+    private func clipRow(_ clip: AppViewModel.Clip) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(formatTimecode(clip.start)) → \(formatTimecode(clip.end))")
+                    .font(.body.monospacedDigit())
+                    .foregroundColor(.white)
+                Text(formatTimecode(clip.end - clip.start))
+                    .font(.caption)
+                    .foregroundColor(Color.white.opacity(0.55))
+            }
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .contentShape(Rectangle())
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: "film")
+                .font(.system(size: 48, weight: .thin))
+                .foregroundColor(Color.white.opacity(0.3))
+            Text("No clips marked")
+                .font(.title2.weight(.semibold))
+                .foregroundColor(.white)
+            Text("Tap Skim to return and mark clips from this video.")
+                .font(.body)
+                .foregroundColor(Color.white.opacity(0.55))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var topChrome: some View {

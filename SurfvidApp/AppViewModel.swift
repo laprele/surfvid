@@ -108,12 +108,16 @@ class AppViewModel: ObservableObject {
         currentAsset = nil      // Phase 4
     }
 
+    var allExported: Bool {
+        !clips.isEmpty && clips.allSatisfy { $0.exportedURL != nil }
+    }
+
     // Phase 4: Export all clips sequentially using ExportManager
     func startExport() {
         guard !clips.isEmpty, !isExporting, let asset = currentAsset else { return }
         isExporting = true
 
-        // Wire progress callback — updates per-clip progress on main actor
+        // Timer fires on RunLoop.main so onProgress is already on the main thread.
         exportManager.onProgress = { [weak self] id, progress in
             guard let self else { return }
             if let i = self.clips.firstIndex(where: { $0.id == id }) {
@@ -121,7 +125,6 @@ class AppViewModel: ObservableObject {
             }
         }
 
-        // Wire completion callback — marks clip as done on main actor
         exportManager.onClipComplete = { [weak self] id, url in
             guard let self else { return }
             if let i = self.clips.firstIndex(where: { $0.id == id }) {
@@ -130,26 +133,25 @@ class AppViewModel: ObservableObject {
             }
         }
 
-        // Wire failure callback — leaves clip at current progress state
         exportManager.onClipFailed = { [weak self] id, _ in
             guard let self else { return }
-            // Clip stays at whatever progress it reached; no UI change beyond that
             _ = self.clips.firstIndex(where: { $0.id == id })
         }
 
-        // Run sequential export loop in a Task
+        // exportClip resolves its continuation on an AVFoundation thread, so all
+        // @Published mutations after each await must be dispatched to the MainActor.
         Task {
             for clip in clips {
                 do {
                     let url = try await exportManager.exportClip(clip, phAsset: asset)
                     try await exportManager.saveToPhotoLibrary(fileURL: url)
-                    exportManager.onClipComplete?(clip.id, url)
+                    await MainActor.run { exportManager.onClipComplete?(clip.id, url) }
                 } catch {
-                    exportManager.onClipFailed?(clip.id, error)
+                    await MainActor.run { exportManager.onClipFailed?(clip.id, error) }
                 }
             }
-            isExporting = false
-            screen = .done
+            await MainActor.run { isExporting = false }
+            // Stay on .review so the user can share clips from the list.
         }
     }
 }

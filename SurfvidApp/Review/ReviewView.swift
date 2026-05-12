@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ReviewView: View {
     @EnvironmentObject var appViewModel: AppViewModel
+    @State private var showingShareAllSheet = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -94,16 +95,35 @@ struct ReviewView: View {
 
             Spacer()
 
-            Button("Export All") {
-                appViewModel.startExport()
+            Group {
+                if appViewModel.isExporting {
+                    Text("Exporting…")
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(Color.white.opacity(0.45))
+                } else if appViewModel.allExported {
+                    Button("Share All") { showingShareAllSheet = true }
+                        .font(.caption.weight(.semibold))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.white)
+                        .foregroundColor(Color.black)
+                        .clipShape(Capsule())
+                        .sheet(isPresented: $showingShareAllSheet) {
+                            ActivityViewController(
+                                activityItems: appViewModel.clips.compactMap { $0.exportedURL }
+                            )
+                        }
+                } else {
+                    Button("Export All") { appViewModel.startExport() }
+                        .font(.caption.weight(.semibold))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.white)
+                        .foregroundColor(Color.black)
+                        .clipShape(Capsule())
+                        .disabled(appViewModel.clips.isEmpty)
+                }
             }
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(Color.white)
-            .foregroundColor(Color.black)
-            .clipShape(Capsule())
-            .disabled(appViewModel.isExporting || appViewModel.clips.isEmpty)
         }
         .padding(.horizontal, 18)
         .padding(.top, 14)

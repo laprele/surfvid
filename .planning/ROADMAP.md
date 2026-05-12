@@ -78,6 +78,19 @@ Cross-cutting constraints:
 
 ---
 
+## Backlog
+
+### Phase 999.1: Adjust skimming sensitivity to be able to define point more granularly (BACKLOG)
+
+**Goal:** [Captured for future planning]
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
+
+---
+
 ## Requirement Coverage
 
 | REQ-ID | Phase |

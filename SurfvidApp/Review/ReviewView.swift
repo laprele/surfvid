@@ -33,16 +33,18 @@ struct ReviewView: View {
     private var clipList: some View {
         List {
             ForEach(appViewModel.clips) { clip in
-                clipRow(clip)
+                ExportClipRow(clip: clip)
                     .listRowBackground(Color.clear)
                     .listRowSeparatorTint(Color.white.opacity(0.12))
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            if let index = appViewModel.clips.firstIndex(where: { $0.id == clip.id }) {
-                                appViewModel.clips.remove(at: index)
+                        if !appViewModel.isExporting {
+                            Button(role: .destructive) {
+                                if let index = appViewModel.clips.firstIndex(where: { $0.id == clip.id }) {
+                                    appViewModel.clips.remove(at: index)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
                         }
                     }
             }
@@ -50,22 +52,6 @@ struct ReviewView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .padding(.top, 56)
-    }
-
-    private func clipRow(_ clip: AppViewModel.Clip) -> some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("\(formatTimecode(clip.start)) → \(formatTimecode(clip.end))")
-                    .font(.body.monospacedDigit())
-                    .foregroundColor(.white)
-                Text(formatTimecode(clip.end - clip.start))
-                    .font(.caption)
-                    .foregroundColor(Color.white.opacity(0.55))
-            }
-            Spacer()
-        }
-        .padding(.vertical, 8)
-        .contentShape(Rectangle())
     }
 
     private var emptyState: some View {
@@ -108,7 +94,16 @@ struct ReviewView: View {
 
             Spacer()
 
-            Color.clear.frame(width: 60, height: 1)
+            Button("Export All") {
+                appViewModel.startExport()
+            }
+            .font(.caption.weight(.semibold))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(Color.white)
+            .foregroundColor(Color.black)
+            .clipShape(Capsule())
+            .disabled(appViewModel.isExporting || appViewModel.clips.isEmpty)
         }
         .padding(.horizontal, 18)
         .padding(.top, 14)
@@ -119,5 +114,46 @@ struct ReviewView: View {
                 endPoint: .bottom
             )
         )
+    }
+}
+
+// MARK: - ExportClipRow
+
+private struct ExportClipRow: View {
+    @EnvironmentObject var appViewModel: AppViewModel
+    let clip: AppViewModel.Clip
+
+    @State private var showingShareSheet: Bool = false
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(formatTimecode(clip.start)) → \(formatTimecode(clip.end))")
+                    .font(.body.monospacedDigit())
+                    .foregroundColor(.white)
+                Text(formatTimecode(clip.end - clip.start))
+                    .font(.caption)
+                    .foregroundColor(Color.white.opacity(0.55))
+                if appViewModel.isExporting || clip.exportProgress > 0 {
+                    ProgressView(value: clip.exportProgress)
+                        .progressViewStyle(.linear)
+                        .tint(Color(red: 0.87, green: 0.42, blue: 0.20))
+                        .frame(height: 2)
+                }
+            }
+            Spacer()
+            if clip.exportedURL != nil {
+                Button(action: { showingShareSheet = true }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.body)
+                        .foregroundColor(.white)
+                }
+                .sheet(isPresented: $showingShareSheet) {
+                    ActivityViewController(activityItems: [clip.exportedURL!])
+                }
+            }
+        }
+        .padding(.vertical, 8)
+        .contentShape(Rectangle())
     }
 }

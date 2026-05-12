@@ -22,7 +22,7 @@ struct SkimView: View {
     // Higher value = slower seek per pixel; lower value = faster.
     private let PX_PER_S: Double = 1.2
 
-    private var effectiveZoom: CGFloat { zoom * pinchDelta }
+    private var effectiveZoom: CGFloat { max(1.0, min(4.0, zoom * pinchDelta)) }
 
     // MARK: - Body
 
@@ -333,9 +333,7 @@ struct SkimView: View {
                     lastDragX = 0
                     appViewModel.playerController.stopDisplayLink()
                     // D-03: do NOT resume playback automatically
-                }
-                // Commit pan offset when zoomed
-                if zoom > 1 {
+                } else if zoom > 1 {
                     committedPan.width += value.translation.width
                     committedPan.height += value.translation.height
                     clampPan()

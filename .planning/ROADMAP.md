@@ -99,9 +99,9 @@ Plans:
 3. User double-taps to instantly reset zoom to 1× and pan offset to zero.
 4. A zoom level indicator (e.g. "2×") appears on screen while zoom is active and hides at 1×.
 5. Zoom and pan state do not interfere with In/Out marking, clip list, or playback — resetting zoom does not move the playhead.
-**Plans:** 0 plans
+**Plans:** 1 plan
 Plans:
-- [ ] TBD
+- [ ] 06-01-PLAN.md — Zoom state, pinch gesture, pan routing, indicator, clamping (Wave 1)
 
 ---
 

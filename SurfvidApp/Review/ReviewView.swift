@@ -10,8 +10,12 @@ struct ReviewView: View {
 
                 if appViewModel.clips.isEmpty {
                     emptyState
+                        .padding(.leading, 60)
+                        .padding(.trailing, max(geometry.safeAreaInsets.trailing, 34))
                 } else {
                     clipList
+                        .padding(.leading, 60)
+                        .padding(.trailing, max(geometry.safeAreaInsets.trailing, 34))
                 }
 
                 VStack(spacing: 0) {

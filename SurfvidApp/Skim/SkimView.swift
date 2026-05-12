@@ -11,12 +11,18 @@ struct SkimView: View {
     @State private var lastDragX: CGFloat = 0
     @State private var hudFlash: HUDKind? = nil
     @State private var savedClipInfo: String? = nil
+    @State private var zoom: CGFloat = 1.0
+    @State private var committedPan: CGSize = .zero
+    @GestureState private var livePanDelta: CGSize = .zero
+    @GestureState private var pinchDelta: CGFloat = 1.0
 
     enum HUDKind { case inPoint, outPoint }
 
     // D-04: Velocity-driven — right drag = earlier, left drag = later (prototype direction)
     // Higher value = slower seek per pixel; lower value = faster.
     private let PX_PER_S: Double = 1.2
+
+    private var effectiveZoom: CGFloat { zoom * pinchDelta }
 
     // MARK: - Body
 
@@ -30,22 +36,42 @@ struct SkimView: View {
                 // Do NOT wrap in if/else or apply .id() that changes per video.
                 PlayerView(player: appViewModel.playerController.player)
                     .ignoresSafeArea()
+                    .scaleEffect(effectiveZoom)
+                    .offset(x: committedPan.width + livePanDelta.width,
+                            y: committedPan.height + livePanDelta.height)
 
                 // Layer 3: Gesture capture surface (between video and chrome)
-                // D-01: tap toggles chrome. D-04: drag scrubs.
+                // D-01: tap toggles chrome. D-04: drag scrubs or pans. Pinch zooms.
                 // Pattern 4: gesture split — minimumDistance:8 avoids tap/drag conflict.
                 Color.clear
                     .contentShape(Rectangle())
                     .ignoresSafeArea()
-                    .gesture(scrubGesture)
+                    .gesture(scrubOrPanGesture)
+                    .simultaneousGesture(pinchGesture)
                     .simultaneousGesture(
-                        TapGesture()
-                            .onEnded {
-                                withAnimation(.easeOut(duration: 0.2)) {
-                                    chromeVisible.toggle()
+                        TapGesture(count: 2)
+                            .onEnded { resetZoom() }
+                            .exclusively(before: TapGesture(count: 1)
+                                .onEnded {
+                                    withAnimation(.easeOut(duration: 0.2)) { chromeVisible.toggle() }
                                 }
-                            }
+                            )
                     )
+
+                // Zoom indicator — shows while effectiveZoom > 1
+                if effectiveZoom > 1.01 {
+                    Text(String(format: "%.2g×", effectiveZoom))
+                        .font(.caption2.monospacedDigit().weight(.semibold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Color.black.opacity(0.55), in: Capsule())
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        .padding(.top, 56)
+                        .padding(.trailing, 18)
+                        .allowsHitTesting(false)
+                        .transition(.opacity)
+                }
 
                 // Layer 4: Pending-In pill — visible when In is marked but Out not yet tapped
                 if let inTime = appViewModel.pendingIn, chromeVisible {
@@ -106,6 +132,7 @@ struct SkimView: View {
         }
         .background(Color.black)
         .ignoresSafeArea()
+        .onChange(of: appViewModel.currentAsset) { _ in resetZoom() }
     }
 
     // MARK: - Top chrome
@@ -351,5 +378,41 @@ struct SkimView: View {
             .transition(.opacity)
             .allowsHitTesting(false)
         }
+    }
+
+    // MARK: - Pinch-to-zoom gesture
+
+    private var pinchGesture: some Gesture {
+        MagnificationGesture()
+            .updating($pinchDelta) { value, state, _ in
+                state = value
+            }
+            .onEnded { value in
+                let newZoom = min(4, max(1, zoom * value))
+                zoom = newZoom
+                if newZoom <= 1 {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        committedPan = .zero
+                    }
+                } else {
+                    clampPan()
+                }
+            }
+    }
+
+    private func resetZoom() {
+        withAnimation(.easeOut(duration: 0.25)) {
+            zoom = 1.0
+            committedPan = .zero
+        }
+    }
+
+    private func clampPan() {
+        let w = UIScreen.main.bounds.width
+        let h = UIScreen.main.bounds.height
+        let maxX = w * (zoom - 1) / 2
+        let maxY = h * (zoom - 1) / 2
+        committedPan.width = min(maxX, max(-maxX, committedPan.width))
+        committedPan.height = min(maxY, max(-maxY, committedPan.height))
     }
 }

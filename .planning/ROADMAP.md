@@ -69,7 +69,7 @@ Plans:
 **Wave 1**
 - [x] 04-01-PLAN.md — ExportManager, AppViewModel export state + startExport, ContentView .done routing (Wave 1)
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 04-02-PLAN.md — ReviewView Export button + progress + Share, DoneView, ActivityViewController; device checkpoint (Wave 2)
+- [x] 04-02-PLAN.md — ReviewView Export button + progress + Share, DoneView, ActivityViewController; device checkpoint (Wave 2)
 
 Cross-cutting constraints:
 - `AVAssetExportPresetPassthrough` locked — no re-encode (both plans)

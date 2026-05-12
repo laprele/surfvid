@@ -5,7 +5,7 @@ See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
 **Current phase:** Phase 4 — Export
-**Status:** Phase 4 planned; ready to execute
+**Status:** Phase 4 executed; pending verification
 
 ## Phase Status
 
@@ -19,8 +19,8 @@ See: .planning/PROJECT.md
 ## Current Position
 
 **Phase:** 4 — Export
-**Plan:** Wave 1 complete (04-01); Wave 2 executing (04-02)
-**Progress:** 3/4 phases complete
+**Plan:** Both plans complete (04-01, 04-02) — device verified
+**Progress:** 4/4 phases executed
 
 ```
 [Phase 1] [Phase 2] [Phase 3] [Phase 4]
@@ -52,9 +52,9 @@ See: .planning/PROJECT.md
 
 ## Performance Metrics
 
-- Phases completed: 3/4
-- Plans completed: 9
-- Requirements delivered: 14/19 (LIB-01, LIB-02, PERF-01, SKIM-01, SKIM-03, SKIM-04, SKIM-05, SKIM-06, SKIM-07, SKIM-08, PERF-02, REV-01, REV-02, REV-03)
+- Phases completed: 4/4
+- Plans completed: 11
+- Requirements delivered: 19/19 (all)
 
 ## Session Continuity
 

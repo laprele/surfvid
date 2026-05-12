@@ -101,7 +101,7 @@ Plans:
 5. Zoom and pan state do not interfere with In/Out marking, clip list, or playback — resetting zoom does not move the playhead.
 **Plans:** 1 plan
 Plans:
-- [ ] 06-01-PLAN.md — Zoom state, pinch gesture, pan routing, indicator, clamping (Wave 1)
+- [x] 06-01-PLAN.md — Zoom state, pinch gesture, pan routing, indicator, clamping (Wave 1)
 
 ---
 

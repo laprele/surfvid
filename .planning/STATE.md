@@ -4,8 +4,8 @@
 See: .planning/PROJECT.md
 
 **Core value:** Get to your best moments and export them, without ever leaving your phone.
-**Current phase:** Phase 5 — Skim Sensitivity
-**Status:** Phase 5 added — not yet planned
+**Current phase:** Phase 6 — Pinch-to-Zoom
+**Status:** Complete — human testing pending
 
 ## Phase Status
 
@@ -16,13 +16,13 @@ See: .planning/PROJECT.md
 | 3 | Review Screen | Complete ✓ (2026-05-12) |
 | 4 | Export | Complete ✓ (2026-05-12) |
 | 5 | Skim Sensitivity | Complete ✓ (2026-05-12) |
-| 6 | Pinch-to-Zoom | Not planned |
+| 6 | Pinch-to-Zoom | Complete ✓ (2026-05-12) |
 
 ## Current Position
 
 **Phase:** 6 — Pinch-to-Zoom
-**Progress:** 5/6 phases complete · Phase 6 queued
-**Next action:** `/gsd-plan-phase 6` when ready
+**Progress:** 6/6 phases complete · Milestone 1 delivered
+**Next action:** Human test pinch-to-zoom on device/simulator, then push to origin
 
 ```
 [Phase 1] [Phase 2] [Phase 3] [Phase 4] [Phase 5] [Phase 6]
